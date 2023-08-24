@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: c_captcher
+    restart: always
+    networks:
+      - bot_network
+
+networks:
+  bot_network:
