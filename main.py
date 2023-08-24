@@ -25,7 +25,7 @@ async def send_math_question(chat_id):
     return message
 
 
-@dp.message_handler(content_types=[types.ContentType.NEW_CHAT_MEMBERS])
+@dp.message_handler(content_types=['new_chat_members'])
 async def on_new_chat_members(message: types.Message):
     for user in message.new_chat_members:
         question_message = await send_math_question(message.chat.id)
