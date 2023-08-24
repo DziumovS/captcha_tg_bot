@@ -1,17 +1,15 @@
 from os import getenv
 import random
-import logging
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
 API_TOKEN = getenv("BOT_TOKEN")
 
 CORRECT_ANSWER = "павук"
-
-logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
@@ -36,6 +34,10 @@ async def on_new_chat_members(message: types.Message):
             await bot.delete_message(question_message.chat.id, question_message.message_id)
             if not user_answers[user.id]["answered_correctly"]:
                 await bot.kick_chat_member(chat_id=message.chat.id, user_id=user.id)
+                try:
+                    await bot.unban_chat_member(message.chat.id, user.id)
+                except Exception as e:
+                    pass
         except Exception as e:
             pass
 
