@@ -9,7 +9,7 @@ load_dotenv()
 
 API_TOKEN = getenv("BOT_TOKEN")
 
-CORRECT_ANSWER = "павук"
+CORRECT_ANSWER = "set correct answer here"
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
