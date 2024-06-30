@@ -8,8 +8,8 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"
-        max-file: "10"
+        max-size: "1m"
+        max-file: "1"
     restart: always
     networks:
       - bot_network
