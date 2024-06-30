@@ -8,13 +8,34 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_TOKEN = getenv("BOT_TOKEN")
+AUTHORIZED_USER_ID = int(getenv("BOT_TOKEN"))
 
-CORRECT_ANSWER = "set correct answer here"
+CORRECT_ANSWER = "привет"
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
 user_answers = {}
+
+
+@dp.message_handler(commands=['set'])
+async def set_correct_answer(message: types.Message):
+    user_id = message.from_user.id
+    if user_id == AUTHORIZED_USER_ID:
+        try:
+            global CORRECT_ANSWER
+            _, new_answer = message.text.split(' ', 1)
+            CORRECT_ANSWER = new_answer.strip()
+            await message.reply(f"The correct answer has been updated to: {CORRECT_ANSWER}")
+        except ValueError:
+            await message.reply("Please provide a new answer like this: /set <answer>")
+
+
+@dp.message_handler(commands=['check'])
+async def check_bot(message: types.Message):
+    user_id = message.from_user.id
+    if user_id == AUTHORIZED_USER_ID:
+        await message.reply(f"I'm fine, I'm working!")
 
 
 async def send_math_question(chat_id):
@@ -34,6 +55,7 @@ async def on_new_chat_members(message: types.Message):
             await bot.delete_message(question_message.chat.id, question_message.message_id)
             if not user_answers[user.id]["answered_correctly"]:
                 await bot.kick_chat_member(chat_id=message.chat.id, user_id=user.id)
+                print(message.chat.id, user.id)
                 try:
                     await bot.unban_chat_member(message.chat.id, user.id)
                 except Exception as e:
