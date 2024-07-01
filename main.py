@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_TOKEN = getenv("BOT_TOKEN")
-AUTHORIZED_USER_ID = int(getenv("BOT_TOKEN"))
+AUTHORIZED_USER_ID = int(getenv("AUTHORIZED_USER_ID"))
 
 CORRECT_ANSWER = "set correct answer here"
 
